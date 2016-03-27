@@ -32,12 +32,39 @@ class Machines {
         return $db->query($query);
     }
 
+    static public function getserial($id)
+    {
+        $db = new SafeMySQL;
+        $query = ("SELECT serial FROM machines WHERE id = '$id'");
+        return $db->query($query);
+    }
+
     static public function getmachineserial($serial)
     {
         $db = new SafeMySQL;
         $query = ("SELECT id, serial FROM machines");
         return $db->query($query);
     }
+
+    static public function inserthistory($machine_id, $serial, $firmware, $freq )
+    {
+        $db = new SafeMySQL;
+        $query = ("INSERT into machines_update set id_machine = '{$machine_id}', serial = '{$serial}', date_time=now(), firmware = '{$firmware}', connect_freq = '{$freq}'");
+        return $db->query($query);
+    }
+
+
+    static public function getHistory()
+    {
+        $db = new SafeMySQL;
+        $query = ("SELECT serial, firmware, date_time, connect_freq FROM machines_update");
+        $fetch = $db->query($query);
+        $data_h = $db->fetch($fetch);
+        return $db->fetch($fetch);
+        var_dump($data_h);
+    }
+
+
 
 
 }
